@@ -4,5 +4,8 @@
         "tabWidth": 4,
         "singleQuote": true,
         "bracketSameLine": true
+    },
+    "dependencies": {
+        "htmx.org": "^1.9.6"
     }
 }
