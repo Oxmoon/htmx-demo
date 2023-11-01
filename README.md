@@ -14,8 +14,16 @@ python3 -m venv .venv
 pip install -r ./requirements.txt
 ```
 
+Also ensure sqlite3 is downloaded on your system.
+To initialize the database run these commands:
+
+```
+flask shell
+db.create_all()
+# exit with: quit()
+```
+
 ### To run the local development server
 
 Ensure your virtual enviornement is running with: `. .venv/bin/activate`  
 Then run `flask --app app run` to start the server.
-

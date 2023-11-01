@@ -1,2 +1,20 @@
 {% extends 'base.html' %}
-{% block app_content %}<h1>Hello From TODO</h1>{% endblock %}
+{% block app_content %}
+    <h1>Hello From TODO</h1>
+    <div id="todo"></div>
+    <form method="POST" action="/todo">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.todo.label }}
+            {{ form.todo(rows=100) }}
+        </p>
+        {% if form.todo.errors %}
+            <ul class="errors">
+                {% for error in form.todo.errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        <p>
+            <input type="submit" value="Add">
+        </p>
+    </form>
+{% endblock %}
