@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="/modules/htmx.min.js"></script>
+        {% block title %}
+            {% if title %}
+                <title>{{ title }} - TODO.app</title>
+            {% else %}
+                <title>TODO.app</title>
+            {% endif %}
+        {% endblock %}
+    </head>
+    {% block navbar %}{% endblock %}
+    <body>
+        {% block app_content %}{% endblock %}
+    </body>
+</html>
