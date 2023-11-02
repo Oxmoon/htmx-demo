@@ -1,22 +1,38 @@
 {% extends 'base.html' %}
 {% block app_content %}
-    <h1>Hello From TODO</h1>
-    <div id="todos">
-        {% for todo in todos %}<p>{{ todo.content }}</p>{% endfor %}
-    </div>
-    <form method="POST" action="/todos">
-        {{ form.csrf_token }}
-        <p>
-            {{ form.todo.label }}
-            {{ form.todo(rows=100) }}
-        </p>
-        {% if form.todo.errors %}
-            <ul class="errors">
-                {% for error in form.todo.errors %}<li>{{ error }}</li>{% endfor %}
-            </ul>
-        {% endif %}
-        <p>
-            <input type="submit" value="Add">
-        </p>
+    <h1>TODO HTMX App</h1>
+    <form action="/todos" method="get" class="tool-bar">
+        <label for="search">Search Term</label>
+        <input id="search"
+               type="search"
+               name="q"
+               value="{{ request.args.get("q") or '' }}" />
+        <input type="submit" value="Search" />
     </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TODO</th>
+                <th>Due</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+                <tr>
+                    <td>{{ todo.id }}</td>
+                    <td>{{ todo.content }}</td>
+                    <td>{{ todo.due }}</td>
+                    <td>
+                        <a href="/todos/{{ todo.id }}/edit">Edit</a>
+                        <a href="/todos/{{ todo.id }}">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        <a href="/todos/new">Add TODO</a>
+    </p>
 {% endblock %}

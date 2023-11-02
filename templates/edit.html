@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block app_content %}
+    <form action="/todos/{{ todo.id }}/edit" method="POST">
+        {{ form.csrf_token }}
+        <fieldset>
+            <legend>TODO Values</legend>
+            <p>
+                {{ form.todo.label }}
+                <input name="todo"
+                       id="todo"
+                       type="text"
+                       placeholder="TODO"
+                       value="{{ todo.content }}" />
+                {% if form.todo.errors %}
+                    <ul class="errors">
+                        {% for error in form.todo.errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                {% endif %}
+            </p>
+            <p>
+                {{ form.due.label }}
+                <input name="due"
+                       id="due"
+                       type="text"
+                       placeholder="Due date"
+                       value="{{ todo.due }}" />
+                {% if form.due.errors %}
+                    <ul class="errors">
+                        {% for error in form.due.errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                {% endif %}
+            </p>
+            <button>Save</button>
+        </fieldset>
+    </form>
+    <form action="/todos/{{ todo.id }}/delete" method="post">
+        <button>Delete TODO</button>
+    </form>
+    <p>
+        <a href="/todos">Back</a>
+    </p>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block app_content %}
+    <form method="POST" action="/todos/new">
+        {{ form.csrf_token }}
+        <p>{{ form.todo.label }} {{ form.todo(rows=100) }}</p>
+        <p>{{ form.due.label }} {{ form.due(rows=100) }}</p>
+        {% if form.todo.errors %}
+            <ul class="errors">
+                {% for error in form.todo.errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        <p>
+            <input type="submit" value="Add" />
+        </p>
+    </form>
+{% endblock %}
