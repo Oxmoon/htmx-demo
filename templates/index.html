@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block app_content %}
     <h1>Hello From TODO</h1>
-    <div id="todo"></div>
-    <form method="POST" action="/todo">
+    <div id="todos">
+        {% for todo in todos %}<p>{{ todo.content }}</p>{% endfor %}
+    </div>
+    <form method="POST" action="/todos">
         {{ form.csrf_token }}
         <p>
             {{ form.todo.label }}
