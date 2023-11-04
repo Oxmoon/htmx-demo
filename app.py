@@ -25,11 +25,24 @@ def index():
 @app.route("/todos", methods=["GET"])
 def todo():
     search = request.args.get("q")
-    if search is not None:
+    page = int(request.args.get("page", 1))
+    if search is not None and search != "":
         todos_set = Todo.query.filter(Todo.content.like("%" + search + "%")).all()
+        if request.headers.get("HX-Trigger") == "search":
+            return render_template(
+                "index.html", todos=todos_set, has_next=False, page=page
+            )
     else:
-        todos_set = Todo.query.all()
-    return render_template("index.html", todos=todos_set)
+        todos_set = Todo.query.paginate(page=page, per_page=10)
+    return render_template(
+        "index.html", todos=todos_set, page=page, has_next=todos_set.has_next
+    )
+
+
+@app.route("/todos/count", methods=["GET"])
+def todos_count():
+    count = Todo.query.count()
+    return "(" + str(count) + " total TODOs)"
 
 
 @app.route("/todos/<todo_id>", methods=["GET"])
@@ -77,14 +90,30 @@ def todo_new():
     return render_template("new.html", form=form)
 
 
-@app.route("/todos/<todo_id>/delete", methods=["POST"])
+@app.route("/todos/<todo_id>", methods=["DELETE"])
 def todos_delete(todo_id=0):
     todo = Todo.query.filter_by(id=todo_id).first_or_404()
     if todo is not None:
         db.session.delete(todo)
         db.session.commit()
+    if request.headers.get("HX-Trigger") == "delete-btn":
         flash("Deleted TODO!")
-    return redirect(url_for("index"))
+        return redirect(url_for("index"), 303)
+    return ""
+
+
+@app.route("/todos", methods=["DELETE"])
+def todos_delete_all():
+    todo_ids = list(map(int, request.form.getlist("selected_todo_ids")))
+    for todo_id in todo_ids:
+        todo = Todo.query.filter_by(id=todo_id).first_or_404()
+        db.session.delete(todo)
+    db.session.commit()
+    flash("Deleted Contacts!")
+    todos_set = Todo.query.paginate(page=1, per_page=10)
+    return render_template(
+        "index.html", todos=todos_set, page=1, has_next=todos_set.has_next
+    )
 
 
 class Todo(db.Model):
