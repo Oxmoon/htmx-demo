@@ -1,0 +1,21 @@
+{% for todo in todos %}
+<tr>
+    <td>
+        <input type="checkbox" name="selected_todo_ids" value="{{ todo.id }}" />
+    </td>
+    <td>{{ todo.content }}</td>
+    <td>{{ todo.due }}</td>
+    <td>
+        <a href="/todos/{{ todo.id }}/edit">Edit</a>
+        <a href="/todos/{{ todo.id }}">View</a>
+        <a
+            href="#"
+            hx-swap="outerHTML swap:1s"
+            hx-delete="/todos/{{ todo.id }}"
+            hx-confirm="Are you sure you want to delete this TODO?"
+            hx-target="closest tr">
+            Delete
+        </a>
+    </td>
+</tr>
+{% endfor %}

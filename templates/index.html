@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 {% block app_content %}
     <h1>TODO HTMX App</h1>
     <form action="/todos" method="get" class="tool-bar">
@@ -6,33 +7,48 @@
         <input id="search"
                type="search"
                name="q"
-               value="{{ request.args.get("q") or '' }}" />
-        <input type="submit" value="Search" />
+               placeholder="Search"
+               value="{{ request.args.get("q") or '' }}"
+               hx-get="/todos"
+               hx-trigger="search, keyup delay:200ms changed"
+               hx-target="body"
+               hx-push-url="true"
+               hx-indicator="#spinner" />
+        <img id="spinner"
+             class="htmx-indicator"
+             src="/static/img/spinner.svg"
+             alt="Request In Flight..." />
     </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>TODO</th>
-                <th>Due</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for todo in todos %}
+    <form>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ todo.id }}</td>
-                    <td>{{ todo.content }}</td>
-                    <td>{{ todo.due }}</td>
-                    <td>
-                        <a href="/todos/{{ todo.id }}/edit">Edit</a>
-                        <a href="/todos/{{ todo.id }}">View</a>
-                    </td>
+                    <th></th>
+                    <th>TODO</th>
+                    <th>Due</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% include '_rows.html' %}
+            </tbody>
+        </table>
+        <div>
+            <span style="float: right">
+                {% if page > 1 %}<a href="/todos?page={{ page - 1 }}">Previous</a>{% endif %}
+                {% if has_next %}<a href="/todos?page={{ page + 1 }}">Next</a>{% endif %}
+            </span>
+        </div>
+        <button hx-delete="/todos"
+                hx-confirm="Are you sure you want to delete these TODOs?"
+                hx-target="body">Delete Selected TODOs</button>
+    </form>
     <p>
-        <a href="/todos/new">Add TODO</a>
+        <a href="/todos/new">Add TODO</a> <span hx-get="todos/count" hx-trigger="revealed">
+            <img id="spinner"
+                 class="htmx-indicator"
+                 src="/static/img/spinner.svg"
+                 alt="Request In Flight..." />
+        </span>
     </p>
 {% endblock %}

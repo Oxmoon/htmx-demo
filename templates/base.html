@@ -1,43 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <title></title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script src="/modules/htmx.min.js"></script>
-        {% block title %}
-            {% if title %}
-                <title>{{ title }} - TODO.app</title>
-            {% else %}
-                <title>TODO.app</title>
-            {% endif %}
-        {% endblock %}
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static', filename='main.css') }}" />
+        <script src="{{ url_for('static', filename='modules/htmx.min.js') }}"></script>
+        <title>{% block title %}{% endblock %} - TODO.app</title>
     </head>
     {% block navbar %}{% endblock %}
-    <body>
-        {% block content %}
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        {% if category == 'error' %}
-                            <div role="alert">
-                                {{ message }}
-                                <button type="button" data-dismiss="alert">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% else %}
-                            <div role="alert">
-                                {{ message }}
-                                <button type="button" data-dismiss="alert">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            {% block app_content %}{% endblock %}
-        {% endblock %}
+    <body hx-boost="true">
+        {% block content %} {% with messages =
+        get_flashed_messages(with_categories=true) %} {% if messages %} {% for
+        category, message in messages %} {% if category == 'error' %}
+        <div role="alert">
+            {{ message }}
+            <button type="button" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        <div role="alert">
+            {{ message }}
+            <button type="button" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %} {% block app_content
+        %}{% endblock %} {% endblock %}
     </body>
 </html>

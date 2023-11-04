@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Edit{% endblock %}
 {% block app_content %}
     <form action="/todos/{{ todo.id }}/edit" method="POST">
         {{ form.csrf_token }}
@@ -33,9 +34,11 @@
             <button>Save</button>
         </fieldset>
     </form>
-    <form action="/todos/{{ todo.id }}/delete" method="post">
-        <button>Delete TODO</button>
-    </form>
+    <button id="delete-btn"
+            hx-delete="/todos/{{ todo.id }}"
+            hx-target="body"
+            hx-push-url="true"
+            hx-confirm="Are you sure you want to delete this TODO?">Delete TODO</button>
     <p>
         <a href="/todos">Back</a>
     </p>

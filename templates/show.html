@@ -1,12 +1,13 @@
-{% extends 'base.html' %} {% block app_content %}
-<h1>TODO: {{ todo.id }}</h1>
-
-<div>
-    <div>{{todo.content}}</div>
-    <div>{{todo.due}}</div>
-</div>
-<p>
-    <a href="/todos/{{ todo.id }}/edit">Edit</a>
-    <a href="/todos">Back</a>
-</p>
+{% extends 'base.html' %}
+{% block title %}Show{% endblock %}
+{% block app_content %}
+    <h1>TODO: {{ todo.id }}</h1>
+    <div>
+        <div>{{ todo.content }}</div>
+        <div>{{ todo.due }}</div>
+    </div>
+    <p>
+        <a href="/todos/{{ todo.id }}/edit">Edit</a>
+        <a href="/todos">Back</a>
+    </p>
 {% endblock %}
