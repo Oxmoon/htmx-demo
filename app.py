@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -118,10 +119,10 @@ def todos_delete_all():
 
 class Todo(db.Model):
     __tablename__ = "todo"
-
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
     due = db.Column(db.String(100), nullable=False)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
 
 class CreateTodo(FlaskForm):
