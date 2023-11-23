@@ -1,10 +1,12 @@
+<link rel="stylesheet" href="../static/main.css">
 {% for todo in todos %}
 <tr>
-    <td>
+    <td class="checksize">
         <input type="checkbox" name="selected_todo_ids" value="{{ todo.id }}" />
     </td>
     <td>{{ todo.content }}</td>
     <td>{{ todo.due }}</td>
+    <td>{{ todo.timestamp }}</td>
     <td>
         <a href="/todos/{{ todo.id }}/edit">Edit</a>
         <a href="/todos/{{ todo.id }}">View</a>

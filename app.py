@@ -122,7 +122,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
     due = db.Column(db.String(100), nullable=False)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.String, index=True, default=datetime.utcnow().strftime("%Y.%m.%d, %H:%M"))
 
 
 class CreateTodo(FlaskForm):
