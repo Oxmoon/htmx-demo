@@ -24,9 +24,9 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>TODO</th>
-                    <th>Due</th>
-                    <th>Created</th>
+                    <th class="em10">TODO</th>
+                    <th class="em4">Due</th>
+                    <th class="em10">Created</th>
                     <th></th>
                 </tr>
             </thead>
@@ -34,8 +34,8 @@
                 {% include '_rows.html' %}
             </tbody>
         </table>
-        <div>
-            <span style="float: right">
+        <div class="flR">
+            <span>
                 {% if page > 1 %}<a href="/todos?page={{ page - 1 }}">Previous</a>{% endif %}
                 {% if has_next %}<a href="/todos?page={{ page + 1 }}">Next</a>{% endif %}
             </span>
