@@ -32,14 +32,18 @@
             </thead>
             <tbody>
                 {% include '_rows.html' %}
+                {% if has_next %}
+                    <tr>
+                        <td colspan="5" style="text-align: center">
+                            <button hx-target="closest tr"
+                                    hx-swap="outerHTML"
+                                    hx-select="tbody > tr"
+                                    hx-get="/todos?page={{ page + 1 }}">Load More</button>
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
-        <div class="flR">
-            <span>
-                {% if page > 1 %}<a href="/todos?page={{ page - 1 }}">Previous</a>{% endif %}
-                {% if has_next %}<a href="/todos?page={{ page + 1 }}">Next</a>{% endif %}
-            </span>
-        </div>
         <button hx-delete="/todos"
                 hx-confirm="Are you sure you want to delete these TODOs?"
                 hx-target="body">Delete Selected TODOs</button>

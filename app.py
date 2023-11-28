@@ -35,8 +35,12 @@ def todo():
             )
     else:
         todos_set = Todo.query.paginate(page=page, per_page=10)
+
     return render_template(
-        "index.html", todos=todos_set, page=page, has_next=todos_set.has_next
+        "index.html",
+        todos=todos_set,
+        page=page,
+        has_next=todos_set.has_next,
     )
 
 
@@ -122,7 +126,9 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100), nullable=False)
     due = db.Column(db.String(100), nullable=False)
-    timestamp = db.Column(db.String, index=True, default=datetime.utcnow().strftime("%Y.%m.%d, %H:%M"))
+    timestamp = db.Column(
+        db.String, index=True, default=datetime.utcnow().strftime("%Y.%m.%d, %H:%M")
+    )
 
 
 class CreateTodo(FlaskForm):
