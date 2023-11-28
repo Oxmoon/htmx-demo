@@ -44,12 +44,11 @@
                 hx-confirm="Are you sure you want to delete these TODOs?"
                 hx-target="body">Delete Selected TODOs</button>
     </form>
-    <p>
-        <a href="/todos/new">Add TODO</a> <span hx-get="todos/count" hx-trigger="revealed">
-            <img id="spinner"
-                 class="htmx-indicator"
-                 src="/static/img/spinner.svg"
-                 alt="Request In Flight..." />
-        </span>
-    </p>
+    <button hx-get="todos/new" hx-swap="afterend">Add TODO</button>
+    <span hx-get="todos/count" hx-trigger="revealed">
+        <img id="spinner"
+             class="htmx-indicator"
+             src="/static/img/spinner.svg"
+             alt="Request In Flight..." />
+    </span>
 {% endblock %}

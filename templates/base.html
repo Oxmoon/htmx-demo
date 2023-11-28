@@ -8,6 +8,7 @@
             type="text/css"
             href="{{ url_for('static', filename='main.css') }}" />
         <script src="{{ url_for('static', filename='modules/htmx.min.js') }}"></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
         <title>{% block title %}{% endblock %} - TODO.app</title>
     </head>
     {% block navbar %}{% endblock %}
@@ -15,14 +16,14 @@
         {% block content %} {% with messages =
         get_flashed_messages(with_categories=true) %} {% if messages %} {% for
         category, message in messages %} {% if category == 'error' %}
-        <div role="alert">
+        <div role="alert" _="on click remove me">
             {{ message }}
             <button type="button" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         {% else %}
-        <div role="alert">
+        <div role="alert" _="on click remove me">
             {{ message }}
             <button type="button" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
