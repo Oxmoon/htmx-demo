@@ -55,4 +55,13 @@
              src="/static/img/spinner.svg"
              alt="Request In Flight..." />
     </span>
+
+    <!-- begin changes -->
+    <footer>
+        <p hx-get="/show_methods"
+           hx-swap="innerHTML"
+           hx-trigger="click">click</p>
+    </footer>
+    <!-- end changes -->
+
 {% endblock %}
