@@ -114,7 +114,7 @@ def todos_delete_all():
         todo = Todo.query.filter_by(id=todo_id).first_or_404()
         db.session.delete(todo)
     db.session.commit()
-    flash("Deleted Contacts!")
+    flash("Deleted TODOs!")
     todos_set = Todo.query.paginate(page=1, per_page=10)
     return render_template(
         "index.html", todos=todos_set, page=1, has_next=todos_set.has_next
