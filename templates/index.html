@@ -2,66 +2,78 @@
 {% block title %}Home{% endblock %}
 {% block app_content %}
     <h1>TODO HTMX App</h1>
-    <form action="/todos" method="get" class="tool-bar">
-        <label for="search">Search Term</label>
-        <input id="search"
-               type="search"
-               name="q"
-               placeholder="Search"
-               value="{{ request.args.get("q") or '' }}"
-               hx-get="/todos"
-               hx-trigger="search, keyup delay:200ms changed"
-               hx-target="body"
-               hx-push-url="true"
-               hx-indicator="#spinner" />
-        <img id="spinner"
-             class="htmx-indicator"
-             src="/static/img/spinner.svg"
-             alt="Request In Flight..." />
-    </form>
-    <form>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th class="em10">TODO</th>
-                    <th class="em4">Due</th>
-                    <th class="em10">Created</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% include '_rows.html' %}
-                {% if has_next %}
+    <div id="listen">
+        <form action="/todos" method="get" class="tool-bar">
+            <label for="search">Search Term</label>
+            <input id="search"
+                   type="search"
+                   name="q"
+                   placeholder="Search"
+                   value="{{ request.args.get("q") or '' }}"
+                   hx-get="/todos"
+                   hx-trigger="search, keyup delay:200ms changed"
+                   hx-target="body"
+                   hx-push-url="true"
+                   hx-indicator="#spinner" />
+            <img id="spinner"
+                 class="htmx-indicator"
+                 src="/static/img/spinner.svg"
+                 alt="Request In Flight..." />
+        </form>
+        <form>
+            <table>
+                <thead>
                     <tr>
-                        <td colspan="5" style="text-align: center">
-                            <button hx-target="closest tr"
-                                    hx-swap="outerHTML"
-                                    hx-select="tbody > tr"
-                                    hx-get="/todos?page={{ page + 1 }}">Load More</button>
-                        </td>
+                        <th></th>
+                        <th class="em10">TODO</th>
+                        <th class="em4">Due</th>
+                        <th class="em10">Created</th>
+                        <th></th>
                     </tr>
-                {% endif %}
-            </tbody>
-        </table>
-        <button hx-delete="/todos"
-                hx-confirm="Are you sure you want to delete these TODOs?"
-                hx-target="body">Delete Selected TODOs</button>
-    </form>
-    <button hx-get="todos/new" hx-swap="afterend">Add TODO</button>
-    <span hx-get="todos/count" hx-trigger="revealed">
+                </thead>
+                <tbody>
+                    {% include '_rows.html' %}
+                    {% if has_next %}
+                        <tr>
+                            <td colspan="5" style="text-align: center">
+                                <button hx-target="closest tr"
+                                        hx-swap="outerHTML"
+                                        hx-select="tbody > tr"
+                                        hx-get="/todos?page={{ page + 1 }}">Load More</button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            <button hx-delete="/todos"
+                    hx-confirm="Are you sure you want to delete these TODOs?"
+                    hx-target="body">Delete Selected TODOs</button>
+        </form>
+        <button hx-get="todos/new" hx-swap="afterend">Add TODO</button>
+    </div>
+    <span hx-get="todos/count"
+          hx-trigger="revealed, htmx:afterOnLoad from:table"
+          style="display: block">
         <img id="spinner"
              class="htmx-indicator"
              src="/static/img/spinner.svg"
              alt="Request In Flight..." />
     </span>
+    <br />
+    <br />
+    <div style="display: inline-flex;">
+        <span><strong>HTML Recieved from:</strong></span>
+        <span id="url"></span>
+    </div>
+    <div id="message" style="background-color: darkslategrey; padding: 20px;"></div>
+    <script>
+        listen = document.querySelector('#listen');
+        listen.addEventListener('htmx:afterRequest', function(evt) {
+            span = document.querySelector('#url');
+            div = document.querySelector('#message');
+            span.innerHTML = evt.detail.xhr.responseURL;
+            div.innerHTML = evt.detail.xhr.responseText;
 
-    <!-- begin changes -->
-    <footer>
-        <p hx-get="/show_methods"
-           hx-swap="innerHTML"
-           hx-trigger="click">click</p>
-    </footer>
-    <!-- end changes -->
-
+        });
+    </script>
 {% endblock %}

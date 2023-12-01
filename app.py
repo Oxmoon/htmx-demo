@@ -120,11 +120,6 @@ def todos_delete_all():
         "index.html", todos=todos_set, page=1, has_next=todos_set.has_next
     )
 
-# basic request function
-@app.route("/show_methods")
-def show_methods():
-    m = request.method
-    return '''<p>{}</p>'''.format(m)
 
 class Todo(db.Model):
     __tablename__ = "todo"
