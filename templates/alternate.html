@@ -39,13 +39,12 @@
                 <tbody>
                     {% include '_rows.html' %}
                     {% if has_next %}
-                        <tr hx-target="closest tr"
+                        <tr style="overflow-y: scroll;"
+                            hx-target="closest tr"
                             hx-swap="outerHTML"
                             hx-select="tbody > tr"
-                            hx-trigger="revealed"
-                            hx-get="/todos?page={{ page + 1 }}">
-                            <td colspan="5" style="text-align: center">
-                            </td>
+                            hx-trigger="intersect once delay:500ms"
+                            hx-get="/todos/sLoad?page={{ page + 1 }}">
                         </tr>
                     {% endif %}
                 </tbody>

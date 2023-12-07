@@ -11,7 +11,6 @@
         <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
         <title>{% block title %}{% endblock %} - TODO.app</title>
     </head>
-    {% block navbar %}{% endblock %}
     <body hx-boost="true">
         {% block content %} {% with messages =
         get_flashed_messages(with_categories=true) %} {% if messages %} {% for
