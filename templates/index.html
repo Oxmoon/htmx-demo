@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
 {% block app_content %}
+{% block navbar %}
+    <nav>
+        <a href="{{url_for('scr_Load')}}">Scroll Load</a>
+    </nav>
+{% endblock %}
     <h1>TODO HTMX App</h1>
     <form action="/todos" method="get" class="tool-bar">
         <label for="search">Search Term</label>
@@ -55,4 +60,21 @@
              src="/static/img/spinner.svg"
              alt="Request In Flight..." />
     </span>
+    <br />
+    <br />
+    <div style="display: inline-flex;">
+        <span><strong>HTML Recieved from:</strong></span>
+        <span id="url"></span>
+    </div>
+    <div id="message" style="background-color: darkslategrey; padding: 20px;"></div>
+    <script>
+        listen = document.querySelector('#listen');
+        listen.addEventListener('htmx:afterRequest', function(evt) {
+            span = document.querySelector('#url');
+            div = document.querySelector('#message');
+            span.innerHTML = '&nbsp' + evt.detail.xhr.responseURL;
+            div.innerHTML = evt.detail.xhr.responseText;
+
+        });
+    </script>
 {% endblock %}

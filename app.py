@@ -43,6 +43,23 @@ def todo():
         has_next=todos_set.has_next,
     )
 
+@app.route("/todos/sLoad")
+def scr_Load():
+    search = request.args.get("q")
+    page = int(request.args.get("page", 1))
+    if search is not None and search != "":
+        todos_set = Todo.query.filter(Todo.content.like("%" + search + "%")).all()
+        if request.headers.get("HX-Trigger") == "search":
+            return render_template(
+                "alternate.html", todos=todos_set, has_next=False, page=page
+            )
+    else:
+        todos_set = Todo.query.paginate(page=page, per_page=10)
+    return render_template("alternate.html",
+        todos=todos_set,
+        page=page,
+        has_next=todos_set.has_next,
+    )
 
 @app.route("/todos/count", methods=["GET"])
 def todos_count():
@@ -79,6 +96,11 @@ def todos_edit_post(todo_id=0):
 
 @app.route("/todos/new", methods=["GET"])
 def todo_new_get():
+    form = CreateTodo()
+    return render_template("new.html", form=form)
+
+@app.route("/todos/sLoad/new", methods=["GET"])
+def todo_new_get2():
     form = CreateTodo()
     return render_template("new.html", form=form)
 
