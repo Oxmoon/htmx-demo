@@ -99,10 +99,9 @@ def todo_new_get():
     form = CreateTodo()
     return render_template("new.html", form=form)
 
-@app.route("/todos/sLoad/new", methods=["GET"])
+@app.route("/todosLoad/new", methods=["GET"])
 def todo_new_get2():
-    form = CreateTodo()
-    return render_template("new.html", form=form)
+    return redirect("/todos/new")
 
 
 @app.route("/todos/new", methods=["POST"])
