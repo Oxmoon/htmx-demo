@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+{% block navbar %}
+    <nav>
+        <a class="navi" href="{{url_for('index')}}">Load Button</a>
+        <a id="lazy_scroll" class="navi" hx-get="{{url_for('index')}}" hx-target="body">Scroll Load</a>
+    </nav>
+{% endblock %}
 {% block app_content %}
     <h1>TODO HTMX App</h1>
     <h2>Lazy Button</h2>
@@ -72,7 +78,7 @@
         listen.addEventListener('htmx:afterRequest', function(evt) {
             span = document.querySelector('#url');
             div = document.querySelector('#message');
-            span.innerHTML = evt.detail.xhr.responseURL;
+            span.innerHTML = "&nbsp" + evt.detail.xhr.responseURL;
             div.innerHTML = evt.detail.xhr.responseText;
 
         });
