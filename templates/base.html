@@ -13,6 +13,12 @@
     </head>
     {% block navbar %}{% endblock %}
     <body hx-boost="true">
+        <nav>
+            <a href="{{url_for('index')}}">Load Button</a>
+            <a id="lazy_scroll" hx-get="{{url_for('index')}}" hx-target="body"
+                >Scroll Load</a
+            >
+        </nav>
         {% block content %} {% with messages =
         get_flashed_messages(with_categories=true) %} {% if messages %} {% for
         category, message in messages %} {% if category == 'error' %}

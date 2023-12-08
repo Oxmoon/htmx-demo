@@ -29,6 +29,10 @@ def todo():
     page = int(request.args.get("page", 1))
     if search is not None and search != "":
         todos_set = Todo.query.filter(Todo.content.like("%" + search + "%")).all()
+        if request.headers.get("HX-Trigger") == "scroll_search":
+            return render_template(
+                "lazy_scroll.html", todos=todos_set, has_next=False, page=page
+            )
         if request.headers.get("HX-Trigger") == "search":
             return render_template(
                 "index.html", todos=todos_set, has_next=False, page=page
@@ -36,6 +40,13 @@ def todo():
     else:
         todos_set = Todo.query.paginate(page=page, per_page=10)
 
+    if request.headers.get("HX-Trigger") == "lazy_scroll":
+        return render_template(
+            "lazy_scroll.html",
+            todos=todos_set,
+            page=page,
+            has_next=todos_set.has_next,
+        )
     return render_template(
         "index.html",
         todos=todos_set,

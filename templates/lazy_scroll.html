@@ -2,11 +2,11 @@
 {% block title %}Home{% endblock %}
 {% block app_content %}
     <h1>TODO HTMX App</h1>
-    <h2>Lazy Button</h2>
+    <h2>Lazy Scroll</h2>
     <div id="listen">
         <form action="/todos" method="get" class="tool-bar">
             <label for="search">Search Term</label>
-            <input id="search"
+            <input id="lazy_scroll_search"
                    type="search"
                    name="q"
                    placeholder="Search"
@@ -22,37 +22,42 @@
                  alt="Request In Flight..." />
         </form>
         <form>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th class="em10">TODO</th>
-                        <th class="em4">Due</th>
-                        <th class="em10">Created</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% include '_rows.html' %}
-                    {% if has_next %}
+            <div style="height: 533px; overflow-y: scroll;">
+                <table>
+                    <thead>
                         <tr>
-                            <td colspan="5" style="text-align: center">
-                                <button hx-target="closest tr"
-                                        hx-swap="outerHTML"
-                                        hx-select="tbody > tr"
-                                        hx-get="/todos?page={{ page + 1 }}">Load More</button>
-                            </td>
+                            <th></th>
+                            <th class="em10">TODO</th>
+                            <th class="em4">Due</th>
+                            <th class="em10">Created</th>
+                            <th></th>
                         </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% include '_rows.html' %}
+                        {% if has_next %}
+                            <tr>
+                                <td colspan="5" style="text-align: center">
+                                    <span id="lazy_scroll"
+                                          hx-target="closest tr"
+                                          hx-swap="outerHTML"
+                                          hx-select="tbody > tr"
+                                          hx-trigger="intersect once"
+                                          hx-get="/todos?page={{ page + 1 }}"></span>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
             <button hx-delete="/todos"
                     hx-confirm="Are you sure you want to delete these TODOs?"
                     hx-target="body">Delete Selected TODOs</button>
         </form>
         <button hx-get="todos/new" hx-swap="afterend">Add TODO</button>
     </div>
-    <span hx-get="todos/count"
+    <span id="lazy_scroll"
+          hx-get="todos/count"
           hx-trigger="revealed, htmx:afterOnLoad from:table"
           style="display: block">
         <img id="spinner"
