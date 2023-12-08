@@ -15,14 +15,16 @@
         {% block content %} {% with messages =
         get_flashed_messages(with_categories=true) %} {% if messages %} {% for
         category, message in messages %} {% if category == 'error' %}
-        <div role="alert" _="on click remove me">
+        <div role="alert" _="on click remove me"
+            style="margin-bottom: 1em;">
             {{ message }}
             <button type="button" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         {% else %}
-        <div role="alert" _="on click remove me">
+        <div role="alert" _="on click remove me"
+            style="margin-bottom: 1em;">
             {{ message }}
             <button type="button" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>

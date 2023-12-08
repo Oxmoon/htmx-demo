@@ -44,6 +44,14 @@ table, th, tr, td {
     padding: .5em;
 }
 
+.navi {
+    background-color: #4a71d0;
+    color: white;
+    padding: .5em;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
 .em10 {
     min-width: 10em;
 }
