@@ -35,6 +35,13 @@ button {
     border-radius: 5px;
     border: 0px;
 }
+
+button:hover {
+    background-color: lightblue;
+    color: dimgrey;
+    transition: ease-in 200ms;
+}
+
 table {
     width: 90%;
     margin: 10px auto;
@@ -58,10 +65,6 @@ table, th, tr, td {
     background-color: lightblue;
     color: dimgrey;
     transition: ease-in 200ms;
-}
-
-.colorSwap {
-    transition: all ease-in 1s;
 }
 
 .em10 {
