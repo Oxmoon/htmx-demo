@@ -27,3 +27,9 @@ db.create_all()
 
 Ensure your virtual enviornement is running with: `. .venv/bin/activate`  
 Then run `flask --app app run` to start the server.
+
+### To run on school server
+
+Ensure your virtual enviornement is running with: `. .venv/bin/activate`  
+Ensure gunicron is installed with `pip install gunicorn`
+Then run `gunicorn app:app -w 4 -b:{YOUR PORT# HERE}` to start the server.
