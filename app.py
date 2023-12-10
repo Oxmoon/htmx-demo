@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, Response, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField
@@ -96,12 +96,15 @@ def todo_new_get():
 
 @app.route("/todos/new", methods=["POST"])
 def todo_new():
+    print(request.headers)
     form = CreateTodo()
     if form.validate_on_submit():
         todo = Todo(content=form.todo.data, due=form.due.data)
         db.session.add(todo)
         db.session.commit()
         flash("Created new TODO!")
+        if request.headers.get("HX-Trigger") == "lazy_scroll_add":
+            return render_template("lazy_scroll.html")
         return redirect(url_for("index"))
     return render_template("new.html", form=form)
 

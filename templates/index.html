@@ -2,8 +2,12 @@
 {% block title %}Home{% endblock %}
 {% block navbar %}
     <nav>
-        <a class="navi" href="{{url_for('index')}}">Load Button</a>
-        <a id="lazy_scroll" class="navi" hx-get="{{url_for('index')}}" hx-target="body">Scroll Load</a>
+        <a class="navi" href="{{ url_for("index") }}">Load Button</a>
+        <a id="lazy_scroll"
+           class="navi"
+           hx-push-url="true"
+           hx-get="{{ url_for("index") }}"
+           hx-target="body">Scroll Load</a>
     </nav>
 {% endblock %}
 {% block app_content %}
@@ -56,7 +60,7 @@
                     hx-confirm="Are you sure you want to delete these TODOs?"
                     hx-target="body">Delete Selected TODOs</button>
         </form>
-        <button hx-get="todos/new" hx-swap="afterend">Add TODO</button>
+        <button hx-get="todos/new" hx-swap="outerHTML">Add TODO</button>
     </div>
     <span hx-get="todos/count"
           hx-trigger="revealed, htmx:afterOnLoad from:table"
