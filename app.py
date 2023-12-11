@@ -42,33 +42,12 @@ def todo():
         page=page,
         has_next=todos_set.has_next,
     )
-<<<<<<< Updated upstream
-
-@app.route("/todos/sLoad")
-def scr_Load():
-    search = request.args.get("q")
-    page = int(request.args.get("page", 1))
-    if search is not None and search != "":
-        todos_set = Todo.query.filter(Todo.content.like("%" + search + "%")).all()
-        if request.headers.get("HX-Trigger") == "search":
-            return render_template(
-                "alternate.html", todos=todos_set, has_next=False, page=page
-            )
-    else:
-        todos_set = Todo.query.paginate(page=page, per_page=10)
-    return render_template("alternate.html",
-        todos=todos_set,
-        page=page,
-        has_next=todos_set.has_next,
-    )
-=======
 colors = ["lightblue", "turquoise", "#4a71d0", "white"]
 @app.route("/todos/colors", methods=["GET"])
 def colors_switch():
     cur_col = colors.pop(0)
     colors.append(cur_col)
     return '<h1 id="colChange" hx-get="/todos/colors" hx-swap="outerHTML" class="smooth" hx-trigger="every 1s" style="color:' + cur_col + '">\n'+ 'TODO HTMX App\n'+ '</h1>\n'
->>>>>>> Stashed changes
 
 @app.route("/todos/count", methods=["GET"])
 def todos_count():
