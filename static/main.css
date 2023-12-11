@@ -20,6 +20,10 @@ h1{
     height: 25px;
 }
 
+.smooth {
+    transition: all ease-in 1s;
+}
+
 tr.htmx-swapping {
     opacity: 0;
     transition: opacity 1s ease-out;

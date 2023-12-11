@@ -46,14 +46,40 @@
                             hx-trigger="intersect once delay:500ms"
                             hx-get="/todos/sLoad?page={{ page + 1 }}">
                         </tr>
+<<<<<<< Updated upstream:templates/alternate.html
                     {% endif %}
                 </tbody>
             </table>
+=======
+                    </thead>
+                    <tbody>
+                        {% include '_rows.html' %}
+                        {% if has_next %}
+                            <tr>
+                                <td colspan="5" style="text-align: center">
+                                    <span id="lazy_scroll"
+                                          hx-target="closest tr"
+                                          hx-swap="outerHTML"
+                                          hx-select="tbody > tr"
+                                          hx-trigger="intersect once"
+                                          hx-get="/todos?page={{ page + 1 }}"
+                                          style="transition: all ease-in 200ms;"></span>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+>>>>>>> Stashed changes:templates/lazy_scroll.html
             <button hx-delete="/todos"
                     hx-confirm="Are you sure you want to delete these TODOs?"
                     hx-target="body">Delete Selected TODOs</button>
         </form>
+<<<<<<< Updated upstream:templates/alternate.html
         <button hx-get="/todosLoad/new" hx-swap="afterend">Add TODO</button>
+=======
+        <button hx-get="todos/new" hx-swap="outerHTML">Add TODO</button>
+>>>>>>> Stashed changes:templates/lazy_scroll.html
     </div>
     <span hx-get="todos/count"
           hx-trigger="revealed, htmx:afterOnLoad from:table"
@@ -80,4 +106,7 @@
 
         });
     </script>
+    <footer>
+        <p>Contributions: Additional Lazy Loading Page</p>
+    </footer>
 {% endblock %}
